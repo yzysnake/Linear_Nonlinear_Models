@@ -1,0 +1,123 @@
+---
+title: "Peter_Ye_Assignhment5"
+output: html_document
+date: "2024-02-11"
+---
+
+### Read data
+```{r}
+heart_disease = read.csv("heart_disease.csv")
+```
+
+### Check data integrity
+```{r}
+# Counting NA values
+na_count <- sum(is.na(heart_disease))
+print(paste("There are", na_count, "NA values in the dataframe"))
+```
+
+```{r}
+str(heart_disease)
+```
+### Data Cleaning
+
+```{r}
+# Drop the NA's rows
+heart_disease <- na.omit(heart_disease)
+```
+
+```{r}
+# Convert 'num' to a binary outcome for logistic regression
+heart_disease$num <- ifelse(heart_disease$num > 0, 1, 0)
+library(dplyr)
+
+heart_disease <- heart_disease %>%
+  mutate(
+    age = as.integer(age), # Convert age to integer
+    sex = as.factor(sex), # Convert sex to categorical (factor)
+    cp = as.factor(cp), # Convert cp to categorical (factor)
+    trestbps = as.integer(trestbps), # Convert trestbps to integer
+    chol = as.integer(chol), # Convert chol to integer
+    fbs = as.factor(fbs), # Convert fbs to categorical (factor)
+    restecg = as.factor(restecg), # Convert restecg to categorical (factor)
+    thalach = as.integer(thalach), # Convert thalach to integer
+    exang = as.factor(exang), # Convert exang to categorical (factor)
+    oldpeak = as.integer(oldpeak), # Convert oldpeak to integer
+    slope = as.factor(slope), # Convert slope to categorical (factor)
+    ca = as.integer(ca), # Convert ca to integer
+    thal = as.factor(thal), # Convert thal to categorical (factor)
+    num = as.integer(num) # Convert num (target) to integer
+  )
+```
+
+
+
+### Estimate the intercept only model. Interpret the estimate for the intercept.
+```{r}
+# 1. Intercept-only model
+intercept_only_model <- glm(num ~ 1, data = heart_disease, family = binomial)
+
+# Summary of the intercept-only model
+summary(intercept_only_model)
+```
+* Intercept (Estimate): The estimate for the intercept is -0.1552. This is the log odds of the outcome, having heart disease, when none of the predictor variables are taken into account
+* The p-value is 0.182, which indicates the probability of observing the given result, or one more extreme, if the null hypothesis were true. In this context, the null hypothesis is that the intercept is zero. Since the p-value is greater than 0.05, we typically do not reject the null hypothesis at the conventional 5% significance level, suggesting that the intercept is not significantly different from zero.
+* Null Deviance and Residual Deviance: Both are 409.95 on 296 degrees of freedom, indicating the difference between a model with only the intercept and the full model with predictors. In this case, since there are no predictors, both values are the same and represent the goodness of fit of the model. These metrics can be used to compare models, but here, it simply reflects the model with only an intercept.
+
+
+### Add a small number of features that you believe will have a impact on the log-odds. Interpret results (coefficients, p-values, null deviance, residual deviance)
+
+```{r}
+# 2. Improved model
+improved_model <- glm(num ~ age + sex + exang, data = heart_disease, family = binomial)
+
+# Summary of the Improved model
+summary(improved_model)
+```
+* Intercept (-5.37305): This is the log odds of the outcome when all predictors are at their reference level (i.e., age = 0, sex = 0, and exang = 0). The negative value suggests a low probability of the outcome at the reference levels of these predictors.
+
+* Age (0.06611): The coefficient for age indicates that, holding other variables constant, a one-year increase in age is associated with an increase in the log odds of the outcome by 0.06611. This suggests that older individuals have a higher risk of heart disease.
+
+* Sex1 (1.42753): 1 indicating males, the positive coefficient suggests that being male (as opposed to the reference category, possibly female) is associated with an increase in the log odds of the outcome by 1.42753, indicating a higher risk of heart disease for males.
+
+* Exang1 (1.90171): The coefficient indicates that having exercise-induced angina is associated with an increase in the log odds of the outcome by 1.90171, suggesting a significant risk factor for heart disease.
+
+* he reduction from a null deviance of 409.95 to a residual deviance of 319.70 indicates that the model with predictors fits the data significantly better than the null model, which only includes the intercept. This reduction shows that age, sex, and exang together have a significant effect on explaining the variability in heart disease presence.
+
+### ANOVA analysis
+```{r}
+anova(intercept_only_model, improved_model)
+```
+The difference in residual deviance between Model 1 and Model 2 is 90.247. This value represents the improvement in the model's fit to the data by including the three predictors. A larger deviance difference indicates a better fit of Model 2 over Model 1. The significant decrease in residual deviance from 409.95 in Model 1 to 319.70 in Model 2, with a deviance difference of 90.247, strongly suggests that Model 2 provides a significantly better fit to the data than Model 1. This improvement is attributed to the inclusion of the predictors age, sex, and exang.
+
+
+### Add interaction terms or additional features. Leverage the statistical results to explain why your new model improves relative to the model in item 2.
+
+```{r}
+# 3. Interacted model
+interacted_model <- glm(num ~ age + sex * trestbps + exang, data = heart_disease, family = binomial)
+
+# Summary of the Interacted model
+summary(interacted_model)
+```
+
+```{r}
+anova(improved_model,interacted_model)
+```
+* Intercept (-10.35696): The baseline log odds of the outcome when all predictors are zero. Given the continuous nature of some predictors, this value is more theoretical than practical.
+
+* Age (0.06016): Similar to the previous model, an increase in age is associated with a higher log odds of having heart disease, albeit with a slightly lower coefficient than in the previous model.
+
+* Sex1 (6.27189): The coefficient for sex1 has become significantly larger, indicating the base effect of being male over femaleon the log odds of having heart disease, before considering the interaction with trestbps.
+
+* Trestbps (0.03897): This coefficient indicates the effect of one unit increase in resting blood pressure on the log odds of having heart disease, for the base level of sex
+
+* Exang1 (1.82980): The presence of exercise-induced angina (exang) continues to significantly increase the log odds of having heart disease, consistent with the previous model.
+
+* Sex1:Trestbps (-0.03532): This interaction term suggests that the effect of resting blood pressure on the likelihood of heart disease differs by sex, with a higher resting blood pressure having a less positive (or potentially more negative) impact on males compared to females, although this effect is only marginally significant (p = 0.066124).
+
+* Decrease in Residual Deviance: The residual deviance decreased from 319.7 in the previous model to 312.9 in the new model, indicating an improved fit to the data.
+
+* Deviance Difference (6.8004): This value represents the improvement in model fit due to the addition of the interaction term and trestbps. While not as large as the improvement from the intercept-only model to the model with age, sex, and exang, it still indicates a statistically meaningful improvement.
+
+

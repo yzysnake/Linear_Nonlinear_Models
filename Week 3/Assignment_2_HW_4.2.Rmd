@@ -1,0 +1,91 @@
+---
+title: "HW4.2"
+output:
+  html_document:
+    df_print: paged
+---
+
+## 1
+```{r}
+load("1030.lecture-mle.RData")
+```
+
+
+```{r}
+# Load 'y' and 'n' from the binomial component of the dataset 'dta'
+y <- dta$binomial$y
+n <- dta$binomial$n
+
+# Create a sequence 'p' ranging from 0.01 to 0.99 with increments of 0.01
+p <- seq(0.01, 0.99, by = 0.01)
+
+# Compute the log-likelihood for a range of 'p' values
+loglike <- sum(log(choose(n, y))) + sum(y) * log(p) + sum(n - y) * log(1 - p)
+
+# Determine the gradient of the log-likelihood with respect to 'p'
+dloglike <- sum(y) / p - sum(n - y) / (1 - p)
+
+# Estimate the maximum likelihood estimator (MLE) for 'p'
+p_hat <- sum(y) / sum(n)
+
+# Generate a line plot with the 'y' values over the sequence '1:m' with a red line
+plot(x = 1:length(y), y = y, type = 'l', col = 'red', xlab = '1:m')
+```
+```{r}
+# Set up the graphics layout to display two plots side by side
+par(mfrow = c(1, 2))
+
+# Create a line plot of the log-likelihood values over the range of 'p' probabilities, 
+# and add a vertical line to indicate the position of the MLE for 'p'
+plot(x = p, y = loglike, type = 'l', col = 'red', xlab = 'Probability')
+abline(v = p_hat, col = 'black')
+
+# Create a line plot of the derivative of the log-likelihood values over the range of 'p' probabilities, 
+# and add a vertical line to indicate the position of the MLE for 'p'
+plot(x = p, y = dloglike, type = 'l', col = 'red', xlab = 'Probability')
+abline(v = p_hat, col = 'black')
+```
+
+## 2
+```{r}
+# Load 'y' from the Poisson component of the dataset 'dta'
+y <- dta$poisson$y
+
+# Generate a sequence 'lb' representing different values of lambda, from 0.5 to 12 in 0.1 increments
+lambda_sequence <- seq(0.5, 12, by = 0.1)
+
+# Compute the log-likelihood for the range of lambda values
+log_likelihood <- sum(y) * log(lambda_sequence) - length(y) * lambda_sequence - sum(log(factorial(y)))
+
+# Determine the gradient of the log-likelihood with respect to lambda values
+derivative_log_likelihood <- sum(y) / lambda_sequence - length(y)
+
+# Estimate the maximum likelihood estimator (MLE) for lambda
+lambda_hat <- mean(y)
+
+# Set up the plotting area to display two plots side by side
+par(mfrow = c(1, 2))
+
+# Plot 'y' as a histogram with vertical lines, colored red, to indicate the MLE of lambda
+plot(y, type = "h", col = "red")
+abline(h = lambda_hat)
+
+# Create a histogram of 'y' and overlay a vertical red line indicating the MLE of lambda
+hist(y)
+abline(v = lambda_hat, col = "red")
+```
+```{r}
+# Set up the plotting area to display two plots side by side
+par(mfrow = c(1, 2))
+
+# Create a plot displaying the log-likelihood against the lambda values with a line plot
+# Highlight the MLE for lambda with a vertical line
+plot(x = lambda_sequence, y = log_likelihood, type = 'l', col = 'red', xlab = 'Lambda')
+abline(v = lambda_hat, col = 'black')
+
+# Create a plot showing the derivative of the log-likelihood with respect to lambda
+# Indicate the MLE for lambda with a vertical line
+plot(x = lambda_sequence, y = derivative_log_likelihood, type = 'l', col = 'red', xlab = 'Lambda')
+abline(v = lambda_hat, col = 'black')
+```
+

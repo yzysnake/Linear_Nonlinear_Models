@@ -1,0 +1,210 @@
+"agecat","roaduserclass","sex","degree","number"
+"17-20","0-car","0-male","fatal",53
+"21-25","0-car","0-male","fatal",37
+"26-29","0-car","0-male","fatal",19
+"30-39","0-car","0-male","fatal",44
+"040-49","0-car","0-male","fatal",34
+"50-59","0-car","0-male","fatal",31
+"60+","0-car","0-male","fatal",24
+"60+","0-car","0-male","fatal",36
+"17-20","0-car","female","fatal",21
+"21-25","0-car","female","fatal",19
+"26-29","0-car","female","fatal",8
+"30-39","0-car","female","fatal",31
+"040-49","0-car","female","fatal",26
+"50-59","0-car","female","fatal",23
+"60+","0-car","female","fatal",8
+"60+","0-car","female","fatal",11
+"17-20","a light truck","0-male","fatal",5
+"21-25","a light truck","0-male","fatal",15
+"26-29","a light truck","0-male","fatal",10
+"30-39","a light truck","0-male","fatal",16
+"040-49","a light truck","0-male","fatal",15
+"50-59","a light truck","0-male","fatal",12
+"60+","a light truck","0-male","fatal",6
+"60+","a light truck","0-male","fatal",4
+"040-49","a light truck","female","fatal",3
+"50-59","a light truck","female","fatal",2
+"26-29","bus+truck","0-male","fatal",2
+"30-39","bus+truck","0-male","fatal",7
+"040-49","bus+truck","0-male","fatal",9
+"50-59","bus+truck","0-male","fatal",10
+"60+","bus+truck","0-male","fatal",1
+"21-25","bus+truck","0-male","fatal",1
+"26-29","bus+truck","0-male","fatal",8
+"30-39","bus+truck","0-male","fatal",17
+"040-49","bus+truck","0-male","fatal",14
+"50-59","bus+truck","0-male","fatal",14
+"60+","bus+truck","0-male","fatal",4
+"26-29","bus+truck","0-male","fatal",1
+"040-49","bus+truck","0-male","fatal",5
+"50-59","bus+truck","0-male","fatal",3
+"60+","bus+truck","0-male","fatal",3
+"60+","bus+truck","0-male","fatal",1
+"040-49","bus+truck","female","fatal",2
+"17-20","motorcycle","0-male","fatal",8
+"21-25","motorcycle","0-male","fatal",9
+"26-29","motorcycle","0-male","fatal",8
+"30-39","motorcycle","0-male","fatal",15
+"040-49","motorcycle","0-male","fatal",11
+"50-59","motorcycle","0-male","fatal",5
+"60+","motorcycle","0-male","fatal",1
+"60+","motorcycle","0-male","fatal",2
+"30-39","motorcycle","female","fatal",1
+"50-59","motorcycle","female","fatal",1
+"17-20","0-car","0-male","injury",2123
+"21-25","0-car","0-male","injury",2005
+"26-29","0-car","0-male","injury",1290
+"30-39","0-car","0-male","injury",2803
+"040-49","0-car","0-male","injury",2433
+"50-59","0-car","0-male","injury",1737
+"60+","0-car","0-male","injury",974
+"60+","0-car","0-male","injury",882
+"17-20","0-car","female","injury",1490
+"21-25","0-car","female","injury",1664
+"26-29","0-car","female","injury",1039
+"30-39","0-car","female","injury",2449
+"040-49","0-car","female","injury",2156
+"50-59","0-car","female","injury",1308
+"60+","0-car","female","injury",555
+"60+","0-car","female","injury",445
+"17-20","a light truck","0-male","injury",212
+"21-25","a light truck","0-male","injury",329
+"26-29","a light truck","0-male","injury",260
+"30-39","a light truck","0-male","injury",627
+"040-49","a light truck","0-male","injury",479
+"50-59","a light truck","0-male","injury",322
+"60+","a light truck","0-male","injury",137
+"60+","a light truck","0-male","injury",51
+"17-20","a light truck","female","injury",24
+"21-25","a light truck","female","injury",25
+"26-29","a light truck","female","injury",20
+"30-39","a light truck","female","injury",64
+"040-49","a light truck","female","injury",64
+"50-59","a light truck","female","injury",24
+"60+","a light truck","female","injury",10
+"60+","a light truck","female","injury",4
+"17-20","bus+truck","0-male","injury",7
+"21-25","bus+truck","0-male","injury",45
+"26-29","bus+truck","0-male","injury",32
+"30-39","bus+truck","0-male","injury",144
+"040-49","bus+truck","0-male","injury",143
+"50-59","bus+truck","0-male","injury",98
+"60+","bus+truck","0-male","injury",27
+"60+","bus+truck","0-male","injury",2
+"50-59","bus+truck","female","injury",1
+"21-25","bus+truck","0-male","injury",26
+"26-29","bus+truck","0-male","injury",50
+"30-39","bus+truck","0-male","injury",182
+"040-49","bus+truck","0-male","injury",166
+"50-59","bus+truck","0-male","injury",116
+"60+","bus+truck","0-male","injury",28
+"60+","bus+truck","0-male","injury",2
+"50-59","bus+truck","female","injury",1
+"17-20","bus+truck","0-male","injury",2
+"21-25","bus+truck","0-male","injury",11
+"26-29","bus+truck","0-male","injury",20
+"30-39","bus+truck","0-male","injury",51
+"040-49","bus+truck","0-male","injury",83
+"50-59","bus+truck","0-male","injury",95
+"60+","bus+truck","0-male","injury",49
+"60+","bus+truck","0-male","injury",6
+"21-25","bus+truck","female","injury",2
+"26-29","bus+truck","female","injury",2
+"30-39","bus+truck","female","injury",13
+"040-49","bus+truck","female","injury",15
+"50-59","bus+truck","female","injury",6
+"60+","bus+truck","female","injury",1
+"17-20","motorcycle","0-male","injury",217
+"21-25","motorcycle","0-male","injury",304
+"26-29","motorcycle","0-male","injury",229
+"30-39","motorcycle","0-male","injury",497
+"040-49","motorcycle","0-male","injury",318
+"50-59","motorcycle","0-male","injury",172
+"60+","motorcycle","0-male","injury",43
+"60+","motorcycle","0-male","injury",7
+"17-20","motorcycle","female","injury",16
+"21-25","motorcycle","female","injury",26
+"26-29","motorcycle","female","injury",21
+"30-39","motorcycle","female","injury",42
+"040-49","motorcycle","female","injury",31
+"50-59","motorcycle","female","injury",10
+"60+","motorcycle","female","injury",3
+"60+","motorcycle","female","injury",2
+"17-20","0-car","0-male","noncasualty",4260
+"21-25","0-car","0-male","noncasualty",3719
+"26-29","0-car","0-male","noncasualty",2264
+"30-39","0-car","0-male","noncasualty",4505
+"040-49","0-car","0-male","noncasualty",3697
+"50-59","0-car","0-male","noncasualty",2609
+"60+","0-car","0-male","noncasualty",1452
+"60+","0-car","0-male","noncasualty",1215
+"17-20","0-car","female","noncasualty",2140
+"21-25","0-car","female","noncasualty",2226
+"26-29","0-car","female","noncasualty",1410
+"30-39","0-car","female","noncasualty",3308
+"040-49","0-car","female","noncasualty",2704
+"50-59","0-car","female","noncasualty",1638
+"60+","0-car","female","noncasualty",759
+"60+","0-car","female","noncasualty",606
+"17-20","a light truck","0-male","noncasualty",325
+"21-25","a light truck","0-male","noncasualty",493
+"26-29","a light truck","0-male","noncasualty",357
+"30-39","a light truck","0-male","noncasualty",906
+"040-49","a light truck","0-male","noncasualty",656
+"50-59","a light truck","0-male","noncasualty",473
+"60+","a light truck","0-male","noncasualty",197
+"60+","a light truck","0-male","noncasualty",51
+"17-20","a light truck","female","noncasualty",22
+"21-25","a light truck","female","noncasualty",44
+"26-29","a light truck","female","noncasualty",34
+"30-39","a light truck","female","noncasualty",90
+"040-49","a light truck","female","noncasualty",68
+"50-59","a light truck","female","noncasualty",33
+"60+","a light truck","female","noncasualty",16
+"60+","a light truck","female","noncasualty",5
+"17-20","bus+truck","0-male","noncasualty",8
+"21-25","bus+truck","0-male","noncasualty",60
+"26-29","bus+truck","0-male","noncasualty",75
+"30-39","bus+truck","0-male","noncasualty",227
+"040-49","bus+truck","0-male","noncasualty",213
+"50-59","bus+truck","0-male","noncasualty",147
+"60+","bus+truck","0-male","noncasualty",48
+"60+","bus+truck","0-male","noncasualty",4
+"30-39","bus+truck","female","noncasualty",3
+"17-20","bus+truck","0-male","noncasualty",1
+"21-25","bus+truck","0-male","noncasualty",25
+"26-29","bus+truck","0-male","noncasualty",56
+"30-39","bus+truck","0-male","noncasualty",213
+"040-49","bus+truck","0-male","noncasualty",212
+"50-59","bus+truck","0-male","noncasualty",159
+"60+","bus+truck","0-male","noncasualty",32
+"26-29","bus+truck","female","noncasualty",1
+"30-39","bus+truck","female","noncasualty",2
+"040-49","bus+truck","female","noncasualty",1
+"17-20","bus+truck","0-male","noncasualty",3
+"21-25","bus+truck","0-male","noncasualty",17
+"26-29","bus+truck","0-male","noncasualty",19
+"30-39","bus+truck","0-male","noncasualty",60
+"040-49","bus+truck","0-male","noncasualty",92
+"50-59","bus+truck","0-male","noncasualty",82
+"60+","bus+truck","0-male","noncasualty",33
+"60+","bus+truck","0-male","noncasualty",8
+"21-25","bus+truck","female","noncasualty",1
+"26-29","bus+truck","female","noncasualty",2
+"30-39","bus+truck","female","noncasualty",9
+"040-49","bus+truck","female","noncasualty",6
+"50-59","bus+truck","female","noncasualty",8
+"60+","bus+truck","female","noncasualty",2
+"17-20","motorcycle","0-male","noncasualty",15
+"21-25","motorcycle","0-male","noncasualty",36
+"26-29","motorcycle","0-male","noncasualty",26
+"30-39","motorcycle","0-male","noncasualty",56
+"040-49","motorcycle","0-male","noncasualty",26
+"50-59","motorcycle","0-male","noncasualty",11
+"60+","motorcycle","0-male","noncasualty",4
+"17-20","motorcycle","female","noncasualty",2
+"21-25","motorcycle","female","noncasualty",2
+"26-29","motorcycle","female","noncasualty",1
+"30-39","motorcycle","female","noncasualty",3
+"040-49","motorcycle","female","noncasualty",3

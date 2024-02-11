@@ -1,0 +1,201 @@
+---
+title: "Peter_Ye_Assignment4"
+output: html_document
+date: "2024-02-05"
+---
+
+
+## 6.5
+
+```{r}
+load("z1040.rpois-linear.RData")
+```
+
+```{r}
+y <- regdta$y
+```
+
+### 1
+
+#### The likelihood function for the saturated Poisson model
+```{r}
+first_term <- sum(y * log(y))
+second_term <- sum(y)
+third_term <- sum(lgamma(y + 1))
+
+likelihood <- first_term - second_term - third_term
+print(likelihood)
+```
+
+#### The likelihood function for the Poisson mode
+```{r}
+model <- glm(y ~ x2 + x3, family = poisson(link = "log"), data = regdta)
+
+b <- coef(model)
+
+mu_hat <- model$fitted.values
+
+first_term <- sum(regdta$y * log(mu_hat))
+second_term <- sum(mu_hat)
+third_term <- sum(lgamma(regdta$y + 1))
+
+log_likelihood <- first_term - second_term - third_term
+
+log_likelihood
+
+```
+
+#### Explain why D changes   
+
+D changes from model to model because each model has a different number of parameters and potentially a different structure that fits the data differently. A model with more parameters may fit the data better, resulting in a lower deviance. However, a model with too many parameters can lead to overfitting. 
+
+```{r}
+# Fit the first model
+model1 <- glm(y ~ x2 + x3, family = poisson(link = "log"), data = regdta)
+D1 <- with(regdta, 2 * (sum(y * log(y)) - sum(y) - sum(lgamma(y + 1)) - logLik(model1)))
+
+# Fit the second model
+model2 <- glm(y ~ x2, family = poisson(link = "log"), data = regdta)
+D2 <- with(regdta, 2 * (sum(y * log(y)) - sum(y) - sum(lgamma(y + 1)) - logLik(model2)))
+
+# Fit the third model (intercept only)
+model3 <- glm(y ~ 1, family = poisson(link = "log"), data = regdta)
+D3 <- with(regdta, 2 * (sum(y * log(y)) - sum(y) - sum(lgamma(y + 1)) - logLik(model3)))
+```
+
+```{r}
+print(D1)
+print(D2)
+print(D3)
+```
+
+## 8.11
+
+### 1
+
+```{r}
+grad <- read.csv("grad school acceptance.csv")
+```
+
+```{r}
+str(grad)
+```
+
+#### Estimate a binomial model with intercept only using the logit link function. Interpret the intercept coefficient.
+
+The estimate for the intercept is -0.7653. This value represents the log odds of being accepted when GPA, GRE, and ranking are not included in the model (since this is a model with only an intercept
+```{r}
+# Estimate a binomial model with intercept only using the logit link function.
+model_intercept_only <- glm(accepted ~ 1, family = binomial(link = "logit"), data = grad)
+
+# Interpret the intercept coefficient.
+summary(model_intercept_only)
+```
+
+#### Compute the average acceptance rate from the model results.
+```{r}
+# Compute the average acceptance rate from the model results.
+average_acceptance_rate <- mean(fitted(model_intercept_only))
+average_acceptance_rate
+```
+
+
+#### Estimate a model with intercept and GPA scores using the logit link function. What is the impact of an unit change in GPA scores on the odds?
+
+The coefficient for GPA 1.0511 represents the change in the log odds of being accepted for a one-unit increase in GPA. Since the coefficient is positive, it indicates that higher GPA is associated with higher odds of acceptance.
+
+```{r}
+# Estimate a model with intercept and GPA scores using the logit link function.
+model_gpa <- glm(accepted ~ gpa, family = binomial(link = "logit"), data = grad)
+summary(model_gpa)
+```
+#### Estimate a model with intercept and GPA scores using the logit link function. What is the impact of an unit change in GPA scores on the probability of acceptance for an individual with an average GPA score?
+The impact of an unit change in GPA scores on the probability of acceptance for an individual with an average GPA score is 0.2526
+
+```{r}
+# Calculate the average GPA from your data (replace 'grad$gpa' with the actual GPA column if different)
+average_gpa <- mean(grad$gpa)
+
+# Calculate the predicted probability of acceptance for the average GPA
+prob_with_avg_gpa <- predict(model_gpa, newdata=data.frame(gpa=average_gpa), type="response")
+
+# Calculate the predicted probability of acceptance for an average GPA increased by one unit
+prob_with_higher_gpa <- predict(model_gpa, newdata=data.frame(gpa=average_gpa + 1), type="response")
+
+# The impact of a one-unit increase in GPA on the probability of acceptance
+impact_of_gpa_increase <- prob_with_higher_gpa - prob_with_avg_gpa
+
+# Print the results
+print(paste("Probability with average GPA:", round(prob_with_avg_gpa, 4)))
+print(paste("Probability with higher GPA:", round(prob_with_higher_gpa, 4)))
+print(paste("Impact of one-unit GPA increase:", round(impact_of_gpa_increase, 4)))
+```
+
+
+
+#### Estimate the binomial model with logit link function and all available covariates. Interpret the results, including coefficients, z-values, p-values, and residual deviance.
+
+* Intercept: The model's intercept has a value of −3.989979, which represents the log odds of acceptance when all predictors are held at their reference levels or are zero. It is statistically significant, as indicated by the very low p-value 0.000465 suggesting that the log odds of acceptance are significantly different from zero when GRE, GPA, and rankings are at their reference levels.
+* The coefficient for GRE is0.002264, which means that for every additional point in the GRE score, the log odds of being accepted into graduate school increase by 0.002264, all else being equal. It's statistically significant at the 5% level p=0.038465, but the effect is small.
+* The GPA coefficient is 0.804038, indicating that each additional GPA point increases the log odds of acceptance by 0.804038, holding other factors constant. This coefficient is statistically significant p = 0.015388, suggesting a strong relationship between GPA and the likelihood of acceptance.
+* The coefficients for rankings (compared to the reference category, likely "RANK01") are all negative and statistically significant, indicating that belonging to any of these rankings decreases the log odds of being accepted, with "RANK04" having the largest negative impact, followed by "RANK03", and then "RANK02".
+* Comparision: The addition of GRE and ranking variables to the GPA-only model provides a more comprehensive view of the factors that influence graduate school acceptance. The AIC of the full model with GRE, GPA, and ranking is 470.52, which should be compared to the AIC of the GPA-only model. A lower AIC suggests a better fit of the model to the data, so if the AIC of the GPA-only model is higher than 470.52, then the full model is preferred. The residual deviance of the full model (458.52) is lower than the null deviance (499.98), indicating that the full model provides a better fit than a model with only an intercept. Furthermore, it should be compared with the residual deviance of the GPA-only model to assess improvement. A significant reduction in residual deviance after including GRE and ranking would indicate a better fit. The coefficients' significance in the full model suggests that GRE and undergraduate ranking, in addition to GPA, are important predictors of graduate school acceptance.The z-values indicate the number of standard deviations each coefficient is from zero, and their associated p-values indicate whether these coefficients are significantly different from zero. In this full model, all predictors are significant, which means that they all contribute information that helps predict the likelihood of graduate school acceptance.
+
+```{r}
+# Estimate the binomial model with logit link function and all available covariates.
+model_full <- glm(accepted ~ gre + gpa + ranking, family = binomial(link = "logit"), data = grad)
+summary(model_full)
+```
+
+#### What is the goodness of fit for the model with GRE, GPA, and rankings?
+```{r}
+# Goodness of fit for the model with GRE, GPA, and rankings.
+anova(model_full, test = "Chisq")
+```
+
+
+#### Estimate the binomial probit model using the probit link function. Interpret the results.
+* The intercept of −2.386836 represents the z-value (on the cumulative normal distribution scale) at which the predicted probability of acceptance is 50% when GRE, GPA, and ranking are at their reference levels. 
+* The GRE coefficient (0.001376) indicates the change in the z-value for a one-point increase in GRE score, holding other variables constant.
+*The coefficient for GPA (0.477730) represents the change in the z-value for a one-unit increase in GPA. Like the logistic model, the positive and significant coefficient (p=0.015410) suggests that a higher GPA substantially increases the probability of acceptance.
+* Similar to the logistic regression model, the negative coefficients for the rankings indicate that compared to the reference category, attending a lower-ranked undergraduate institution is associated with lower z-values, which translates to lower probabilities of acceptance. All ranking coefficients are statistically significant, with "RANK04" having the most substantial negative impact, followed by "RANK03", and then "RANK02".
+```{r}
+# Estimate the binomial probit model.
+model_probit <- glm(accepted ~ gre + gpa + ranking, family = binomial(link = "probit"), data = grad)
+summary(model_probit)
+```
+
+### 3
+
+```{r}
+crash <- read.csv("crash.csv")
+```
+
+```{r}
+str(crash)
+```
+```{r}
+# Convert 'degree' into a binary factor where 1 represents 'injury or fatal' and 0 represents 'non-casualty'
+crash$degree_binary <- ifelse(crash$degree == "noncasualty", 0, 1)
+
+# Convert other categorical variables into factors if they aren't already
+crash$agecat <- as.factor(crash$agecat)
+crash$roaduserclass <- as.factor(crash$roaduserclass)
+crash$sex <- as.factor(crash$sex)
+
+```
+
+
+From the results, it appears that none of the coefficients are statistically significant at the 5% level, since all the p-values are above 0.05. However, the intercept has a p-value of 0.0688, which is close to being significant at the 5% level (it is significant at the 10% level, as indicated by the '.' next to the p-value).
+
+```{r}
+# Perform the binomial logistic regression using glm
+model <- glm(degree_binary ~ agecat + roaduserclass + sex, family = binomial, data = crash)
+
+# Summary of the model to check coefficients and overall fit
+summary(model)
+
+```
+
+
+

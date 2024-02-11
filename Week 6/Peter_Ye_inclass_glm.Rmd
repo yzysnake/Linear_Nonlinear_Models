@@ -1,0 +1,50 @@
+---
+title: "Inclass Bio"
+output: html_notebook
+---
+
+```{r}
+library("ISLR")
+```
+
+
+```{r}
+default = Default
+summary(default)
+```
+
+```{r}
+str(default)
+```
+```{r}
+default.bino1 = glm(default~student+balance+income,family="binomial",data=Default)
+summary(default.bino)
+```
+
+```{r}
+default.bino2 = glm(default~student+balance,family="binomial",data=Default)
+summary(default.bino2)
+```
+Model1: 
+* AIC: 1579.5
+* Residual deviance: 1571.5 on 9996 degrees of freedom
+
+Model2:
+* AIC: 1577.7
+* Residual deviance: 1571.7 on 9997 degrees of freedom
+
+
+AIC is a measure of the relative quality of a statistical model for a given set of data. Lower AIC values indicate a model that explains more variance using fewer explanatory variables. Between these two models, Model 2 has a lower AIC (1577.7) compared to Model 1 (1579.5), suggesting Model 2 is slightly more efficient in terms of balancing goodness of fit with the number of parameters.
+
+It measures the lack of fit of the model to the data, with lower values indicating a better fit. Model 2 has a residual deviance of 1571.7 on 9997 degrees of freedom, and Model 1 has a residual deviance of 1571.5 on 9996 degrees of freedom. The difference is minimal, but Model 1 fits the data slightly better, as indicated by a marginally lower residual deviance. However, the difference is very small and might not be practically significant.
+
+
+```{r}
+default.bino3 = glm(default~student*balance,family="binomial",data=default)
+summary(default.bino3)
+```
+
+```{r}
+
+```
+

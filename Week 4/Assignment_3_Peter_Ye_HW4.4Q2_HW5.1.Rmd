@@ -1,0 +1,139 @@
+---
+title: "Assignment_3_HW4.4"
+output: html_document
+date: "2024-01-28"
+---
+
+## HW4.4
+### 2
+```{r}
+tol <- 10^(-10)
+err <- 10^5
+x0 <- c(1,1,1) # Initial guess must have 3 values
+
+f <- function(x) {
+    c(x[1] + x[2] + x[3]^2 - 12,
+      x[1]^2 - x[2] + x[3] - 2,
+      2*x[1]^2 - x[2]^2 + x[3] - 1)
+}
+
+Df <- function(x) {
+    matrix(c(1, 1, 2*x[3],
+             2*x[1], -1, 1,
+             4*x[1], -2*x[2], 1), 
+           nrow=3, byrow=TRUE)
+}
+
+k <- 0
+dta <- data.frame(iteration=integer(), x1=numeric(), x2=numeric(), x3=numeric(), error=numeric())
+
+while (err > tol) {
+    Df_x0 <- Df(x0)
+    f_x0 <- f(x0)
+    invDf_x0 <- solve(Df_x0)
+    x <- x0 - invDf_x0 %*% f_x0
+    err <- max(abs(x - x0))
+    dta <- rbind(dta, data.frame(k=k, x1=x0[1], x2=x0[2], x3=x0[3], err=err))
+    x0 <- as.vector(x)
+    k <- k + 1
+}
+```
+
+* Iteration 0 to 1: There's a significant change in the values of x1, x2, and x3, which is reflected by the large error of 3. This suggests that the initial guess was not very close to the actual root.
+* Iteration 1 to 2: The changes in x1, x2, and x3 are still relatively large but decreasing rapidly, indicating the algorithm is moving towards convergence.
+* Iteration 2 to 3 and onwards: The changes in the values of x1, x2, and x3 become progressively smaller, and the error decreases by orders of magnitude with each iteration.
+* The error has decreased to approximately 1.110223e-16, which is effectively zero within the precision limits of the computer's floating-point arithmetic. This indicates that subsequent iterations do not change the solution, suggesting convergence.
+
+Yes, the algorithm is converging. By the final iteration shown, the error is well below the tolerance level, indicating that the solution has been found to the desired precision
+```{r}
+print(dta)
+```
+
+```{r}
+par(mfrow=c(3,1))
+plot(dta$k, dta$x1, type="l", col="blue", xlab="Iteration (k)", ylab="x1")
+plot(dta$k, dta$x2, type="l", col="red", xlab="Iteration (k)", ylab="x2")
+plot(dta$k, dta$x3, type="l", col="green", xlab="Iteration (k)", ylab="x3")
+```
+
+
+## HW5.2
+### 1
+
+
+```{r}
+load("z1037.poisson-loglink.RData")
+```
+
+
+```{r}
+library(reshape2)
+
+# POISSON COUNT DATA
+y <- regdta$y
+x <- regdta$x2
+plot(x,y,xlab="x",ylab="y")
+```
+
+```{r}
+# ITERATIONS
+dta <- data.frame(ite=numeric(),b0=numeric(),b1=numeric(),err=numeric(),stringsAsFactors=FALSE)
+
+y <- matrix(y,ncol=1)
+X <- matrix(c(rep(1,length(x)),x),nrow = length(x), ncol=2, byrow = FALSE)
+
+b0 <- c(1.90,0.55)
+tol <- 1e-5
+err <- 1e10
+ite <- 0
+while (err>tol){
+
+    var.y <- X %*% b0
+    W <- diag(as.numeric(1/var.y),nrow=length(var.y),ncol=length(var.y))
+    z <- y
+
+    b1 <- solve(t(X) %*% W %*% X) %*% (t(X) %*% W %*% z)
+
+    err <- max(abs(b1-b0))
+    dta <- rbind(dta,data.frame(ite,b0,b1,err,stringsAsFactors=FALSE))
+    
+    b0 <- b1
+    ite <- ite + 1
+}
+```
+
+
+```{r}
+head(W)
+```
+```{r}
+t(X) %*% W %*% X
+```
+
+```{r}
+t(X) %*% W %*% z
+```
+
+```{r}
+b.no <- rep(c(paste0("b_",1),paste0("b_",2)),nrow(dta)/nrow(b0))
+dta <- cbind(dta,b.no)
+dta <- dta[,c("ite","b.no","b0")]
+dta <- dcast(dta,ite~b.no,value.var="b0")
+dta
+```
+
+```{r}
+par(mfrow=c(1,2), mar=c(2,5,2,1),oma=c(0,0,3,0))
+plot(dta$ite,dta$b_1,ylim=c(min(dta$b_1),max(dta$b_1)),xlab="No of Iterations",ylab="beta0",main="",pch=16,col="red",lty=2)
+plot(dta$ite,dta$b_2,ylim=c(min(dta$b_2),max(dta$b_2)),xlab="No of Iterations",ylab="beta1",main="",pch=16,col="red",lty=2)
+
+mtext("Newton-Raphson Method - Poisson (linear)",outer=TRUE,cex=1.5)
+```
+```{r}
+regdta <- data.frame(y=y,X=X)
+
+glm(y~X.2,data=regdta,family=poisson(link="identity"))$coefficients
+```
+
+In the sixth interation, we got 7.562541	4.242629 for x1 and x2 separately. Comparing to the glm function in R, the results are closer with rounding decimals, suggesting the errors are getting convergence.
+
